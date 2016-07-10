@@ -1,0 +1,749 @@
+<script>
+window.odometerOptions = {
+	duration : 1000
+}
+</script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
+<script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+<script src="/js/odometer.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200' rel='stylesheet' type='text/css'>
+<link href='/css/odometer-minimal.css' rel='stylesheet' type='text/css'>
+
+<div class="container">
+	<div class="table-area">
+		<div class="table">
+			<img class="table" src="img/table.png">
+		</div>
+		<div class="public-card-area">
+			<div id="stack-1">
+				<div class="card">
+					<img src="img/backs/back-1.png">
+				</div>
+			</div>
+			<div id="stack-2">
+				<div class="card">
+					<img src="img/backs/back-1.png">
+				</div>
+			</div>
+			<div id="stack-3">
+				<div class="card">
+					<img src="img/backs/back-1.png">
+				</div>
+			</div>
+			<div id="stack-4">
+				<div class="card">
+					<img src="img/backs/back-1.png">
+				</div>
+			</div>
+			<div id="top-of-stack">
+				<div class="card">
+					<div class="front">
+						<img src="img/backs/back-1.png">
+					</div>
+					<div class="back">
+						<img src="img/cards/blank.png">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pot-area">
+			<div class="pot-marking">
+				<img id="original-poker-chip" class="poker-chip" src="img/poker-chip.png">
+				<div class="pot">
+					<span class="dollar-sign">$</span><div id="pot-cash" class="odometer">0</div>
+				</div>
+			</div>
+		</div>
+		<div id="player-1" class="player">
+			<div class="name-plate">
+				<img class="name-plate" src="img/name-plate.png">
+				<h3 class="name-plate-text player-name">Tanner Coval</h3>
+				<h3 class="name-plate-text player-cash">
+					<span class="dollar-sign">$</span><div id="player-1-cash" class="odometer"></div>
+				</h3>
+			</div>
+		</div>
+		<div id="player-2" class="player">
+			<div class="name-plate">
+				<img class="name-plate" src="img/name-plate.png">
+				<h3 class="name-plate-text player-name">Alan Tan</h3>
+				<h3 class="name-plate-text player-cash">
+					<span class="dollar-sign">$</span><div id="player-2-cash" class="odometer"></div>
+				</h3>
+			</div>
+		</div>
+		<div id="player-1-dealer">
+			<img class="dealer-chip" src="/img/dealer-chip.png">
+		</div>
+		<div id="player-2-dealer">
+			<img class="dealer-chip" src="/img/dealer-chip.png">
+		</div>
+	</div>
+	<div class="debug-container">
+		<div class="lower-debug-bar">
+			<div id="button-1" class="button">
+				<p class="button-text">Deal Players</p>
+			</div>
+			<div id="button-2" class="button">
+				<p class="button-text">Deal Flop</p>
+			</div>
+			<div id="button-3" class="button">
+				<p class="button-text">Deal Turn</p>
+			</div>
+			<div id="button-4" class="button">
+				<p class="button-text">Deal River</p>
+			</div>
+			<div id="button-5" class="button">
+				<p class="button-text">P1 Bets</p>
+			</div>
+			<div id="button-6" class="button">
+				<p class="button-text">P2 Bets</p>
+			</div>
+			<div id="button-7" class="button">
+				<p class="button-text">Player 1 Wins</p>
+			</div>
+			<div id="button-8" class="button">
+				<p class="button-text">Player 2 Wins</p>
+			</div>
+			<div id="button-9" class="button">
+				<p class="button-text">Both Win</p>
+			</div>
+			<div id="button-10" class="button">
+				<p class="button-text">Toggle BG</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+
+	div.debug-container {
+		position: fixed;
+		width: 100%;
+		height: 60px;
+		bottom: 40px;
+	}
+	div.lower-debug-bar {
+		width: 940px;
+		height: 100%;
+		position: relative;
+		margin: 0 auto;
+		background: red;
+		border-radius: 10px;
+		text-align: left;
+		background-color: rgba(255,255,255, 0.15);
+	}
+	div.button {
+		margin: 0px;
+		display: inline-block;
+		width: 80px;
+		height: 40px;
+		background-color: rgb(10,10,10);
+		margin-top: 10px;
+		margin-left: 10px;
+		border-radius: 7px;
+		text-align: center;
+	}
+	div.button:hover {
+		background-color: rgb(20,20,20);
+	}
+	p.button-text {
+		margin: 0px;
+		font-family: 'Source Sans Pro', sans-serif;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 40px;
+		color: rgb(220,220,220);
+		cursor: default;
+	}
+
+	div.player {
+		position: absolute;
+		width: 140px;
+		height: 120px;
+	}
+	div#player-1 {
+		top: 489px;
+		left: 400px;
+	}
+	div#player-2 {
+		top: 105px;
+		left: 400px;
+	}
+	div#player-1-dealer {
+		position: absolute;
+		top: 510px;
+		left: 545px;
+	}
+	div#player-2-dealer {
+		position: absolute;
+		top: 220px;
+		left: 345px;
+	}
+	img.dealer-chip {
+		zoom: 0.4;
+	}
+	div.bottom-card {
+		position: absolute;
+		left: 20px;
+		z-index: 1;
+	}
+	div.top-card {
+		position: absolute;
+		left: 43px;
+		z-index: 2;
+	}
+	div.name-plate {
+		position: absolute;
+		top: 60px;
+		left: 0px;
+		width: 140px;
+		height: 60px;
+	}
+	h3.name-plate-text {
+		font-size: 18px;
+		font-weight: 100;
+		font-family: 'Source Sans Pro', sans-serif;
+		margin: 0;
+		color: white;
+		z-index: 3;
+	}
+	h3.player-name {
+		position: absolute;
+		top: 5px;
+		left: 5%;
+		width: 90%;
+	}
+	h3.player-cash {
+		position: absolute;
+		top: 27px;
+		left: 5%;
+		width: 90%;
+		font-weight: bold;
+	}
+	img.name-plate {
+		zoom: 0.35;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: 3;
+	}
+
+	div.pot-area {
+		position: absolute;
+		width: 400px;
+		height: 60px;
+		top: 270px;
+		left: 270px;
+	}
+	div.pot-marking {
+		position: relative;
+		padding: 8px;
+		padding-left: 50px;
+		height: 60px;
+		width: 230px;
+		background-color: rgba(0,0,0,0.45);
+		margin: 0 auto;
+		border: rgba(255,255,255,0.6) 2px solid;
+		border-radius: 30px;
+		box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    -webkit-box-sizing: border-box;
+	}
+	img.poker-chip {
+		position: absolute;
+		left: 20px;
+		top: 20px;
+		zoom: 0.4;
+	}
+	div.pot {
+		line-height: 40px;
+		margin: 0 auto;
+		font-size: 30px;
+		font-weight: 400;
+		font-family: 'Arimo', sans-serif;
+		color: white;
+	}
+	span.dollar-sign {
+		vertical-align: middle;
+		margin-right: 1px;
+	}
+
+	/*===== PUBLIC CARDS =====*/
+	div.public-card-area {
+		position: absolute;
+		width: 400px;
+		height: 123px;
+		top: 340px;
+		left: 270px;
+	}
+	div#top-of-stack {
+		position: absolute;
+		top: -23px;
+		left: -117px;
+	}
+	div.top-of-stack {
+		position: absolute;
+		top: -23px;
+		left: -117px;
+		z-index: 2;
+	}
+	div#stack-1 {
+		position: absolute;
+		top: -20px;
+		left: -120px;
+	}
+	div#stack-2 {
+		position: absolute;
+		top: -21px;
+		left: -119px;
+	}
+	div#stack-3 {
+		position: absolute;
+		top: -22px;
+		left: -118px;
+	}
+	div#stack-4 {
+		position: absolute;
+		top: -23px;
+		left: -117px;
+	}
+	div.shuffle-card {
+		position: absolute;
+	}
+
+	div#slot-1 {
+		position: absolute;
+		left: 2px;
+	}
+	div#slot-2 {
+		position: absolute;
+		left: 82px;
+	}
+	div#slot-3 {
+		position: absolute;
+		left: 162px;
+	}
+	div#slot-4 {
+		position: absolute;
+		left: 242px;
+	}
+	div#slot-5 {
+		position: absolute;
+		left: 322px;
+	}
+
+	body {
+		margin: 0px;
+		padding: 0px;
+		display: none;
+	}
+	img {
+		user-drag: none;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-drag: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	div.container {
+		left: 0px;
+		top: 0px;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		background-image: url(img/backgrounds/background-1.jpg);
+		background-repeat: repeat;
+		background-size: 1920px auto;
+		background-position: center;
+		text-align: center;
+	}
+
+	/*===== TABLE CONTAINER =====*/
+	div.table-area {
+		position: relative;
+		width: 940px;
+		height: 800px;
+		top: 50%;
+		transform: translateY(-50%);
+		/*overflow: hidden;*/
+		margin: 0 auto;
+	}
+	div.table {
+		position: absolute;
+		top: 150px;
+		left: -80px;
+		width: 1100px;
+	}
+	img.table {
+		display: block;
+		zoom: 1.5;
+		margin: 0 auto;
+	}
+
+	/*===== GENERAL CARD =====*/
+	div.card {
+		zoom: 0.45;
+		perspective: 400px;
+		width: 170px;
+		height: 245px;
+		position: absolute;
+	}
+</style>
+
+<script>
+
+	var STATES = {
+		NEW_GAME : "new game",
+		FLOP : "flop",
+		TURN : "turn",
+		RIVER : "river",
+		END_GAME : "end game"
+	};
+
+	var gameState = {
+		numOfPlayers : 2,
+		playerCash : {
+			1 : 10000,
+			2 : 10000
+		},
+		potCash : 0,
+		sidePotCash : 0,
+		dealer : 1,
+		playerTurn : 1,
+		state : STATES.NEW_GAME
+	};
+
+	var viewOptions = {
+		numOfCardBacks : 1,
+		cardBack : 1,
+		numOfBackgrounds : 3,
+		background : 1
+	};
+
+	function changeBackground(backgroundNum) {
+		$(".container").css({
+			"background-image" : "url(/img/backgrounds/background-" + backgroundNum + ".jpg"
+		});
+	}
+
+	// possible I may not keep this around
+	/*function shuffleDeck() {
+		$("#top-of-stack").hide();
+		var sound = new Audio("/audio/shuffle.mp3");
+		sound.play();
+		for (var i = 1; i < 10; i++) {
+			var newCard = $("#stack-4").clone();
+			var coords = $("#stack-4").position();
+			newCard.css({
+				top : coords["top"] - i,
+				left : coords["left"] + i
+			});
+			newCard.removeAttr("id");
+			newCard.addClass("shuffle-card");
+			doTimeout(i, newCard);
+		}
+		setTimeout(function() {
+			$($(".shuffle-card").get().reverse()).each(function(i, card) {
+				setTimeout(function() {
+					card.remove();
+				}, 70 * i);
+			});
+		}, 1500);
+		setTimeout(function() {
+			$("#top-of-stack").show();
+		}, 2100);
+	}*/
+
+	// helper function used to pass value rather than reference to timeout.
+	function doTimeout(i, newCard) {
+		setTimeout(function() {
+			$(".public-card-area").append(newCard);
+		}, 100 * i);
+	}
+
+	function playerWins(playerWinnings) {
+		var pot = $(".pot");
+		var potCash = $("#pot-cash");
+		var playerLocs = {
+			1 : {top : "715px", left : "235px"},
+			2 : {top : "-245px", left : "235px"}
+		};
+		$.each(playerWinnings, function(index, player) {
+			var chip = $(".poker-chip").clone();
+			chip.appendTo(".pot-marking");
+			chip.animate(playerLocs[player.number], 700, function() {
+				this.remove();
+			});
+			gameState.playerCash[player.number] += player.winnings;
+			$("#player-" + player.number + "-cash").html(gameState.playerCash[player.number]);
+		});
+
+		gameState.potCash = 0;
+		potCash.html(gameState.potCash);
+
+		var sound = new Audio('audio/bet.mp3');
+		setTimeout( function() {
+			sound.play();
+		}, 200);
+		
+		setTimeout(function() {
+			collectCards();
+		}, 1500);
+	}
+
+	function collectCards() {
+		var cards = [".bottom-card", ".top-card"];
+		var sound = new Audio("/audio/card-flip-2.mp3");
+		//var cardsCollected = false;
+		for (var playerNum = 1; playerNum <= gameState.numOfPlayers; playerNum++) {
+			var player = "#player-" + playerNum;
+			$.each(cards, function(index, cardClass) {
+
+				var card = $(player + " > " + cardClass);
+				if (card.size() == 0) return true;
+				//cardsCollected = true;
+				var coords = card.offset();
+				var deckCoords = $("#top-of-stack").offset();
+
+				var diffTop = deckCoords["top"] - coords["top"];
+				var diffLeft = deckCoords["left"] - coords["left"];
+
+				var currCSS = card.position();
+				card.flip(false);
+				card.animate({
+					top : currCSS["top"] + diffTop + "px", 
+					left : currCSS["left"] + diffLeft + "px"
+				}, 800, function() {
+					card.remove();
+				});
+
+			});
+		}
+		for (var slotNum = 1; slotNum <= 5; slotNum++) {
+			var card = $("#slot-" + slotNum);
+			if (!card.size()) continue;
+			//cardsCollected = true;
+			var cardCoords = card.position();
+			var deckCoords = $("#top-of-stack").position();
+
+			var diffTop = deckCoords["top"] - cardCoords["top"];
+			var diffLeft = deckCoords["left"] - cardCoords["left"];
+
+			card.flip(false);
+			card.animate({
+				top : cardCoords["top"] + diffTop + "px",
+				left : cardCoords["left"] + diffLeft + "px"
+			}, 800, function() {
+				this.remove();
+			});
+		}
+		/*if (cardsCollected) {
+			setTimeout(function() {
+				shuffleDeck();
+			}, 1200);
+		}*/
+	}
+
+	function bet(playerNum, amount) {
+		var chip = $(".poker-chip").clone();
+		var pot = $(".pot");
+		var potCash = $("#pot-cash");
+		var playerCash = $("#player-" + playerNum + "-cash");
+		var sound = new Audio('audio/bet-4.mp3');
+		var playerLocs = {
+			1 : {top : "715px", left : "235px"},
+			2 : {top : "-245px", left : "235px"}
+		};
+		chip.css(playerLocs[playerNum]);
+		chip.appendTo(".pot-marking");
+		setTimeout( function() {
+			sound.play();
+		}, 200);
+		chip.animate({ top : "20px", left : "20px" }, 700, function() {
+			this.remove();
+		});
+		gameState.potCash += amount;
+		gameState.playerCash[playerNum] -= amount;
+		potCash.html(gameState.potCash);
+		playerCash.html(gameState.playerCash[playerNum]);
+		pot.animate({color : "#55FF55"}, 400, function() {
+			setTimeout(function() {
+				pot.animate({color: "white"}, 600);
+			}, 600);
+		});
+	}
+
+	function dealCardToSlot(playerNum, slotNum, suit, pip) {
+		var locations = [
+			{
+				1 : { "top" : "0px", "left" : "2px" },
+				2 : { "top" : "0px", "left" : "82px" },
+				3 : { "top" : "0px", "left" : "162px" },
+				4 : { "top" : "0px", "left" : "242px" },
+				5 : { "top" : "0px", "left" : "322px" }
+			}, {
+				1 : { "top" : "149px", "left" : "150px" },
+				2 : { "top" : "149px", "left" : "173px" }
+			}, {
+				1 : { "top" : "-235px", "left" : "150px" },
+				2 : { "top" : "-235px", "left" : "173px" }
+			}
+		]
+
+		var sound = new Audio('audio/card-flip.mp3');
+		var coords = locations[playerNum][slotNum];
+		var card = $("div#top-of-stack").clone();
+		if (suit && pip) {
+			card.find(".back > img").attr({"src" : "img/cards/" + suit + "-" + pip + ".png"});
+		}
+		card.removeAttr("id");
+		card.addClass("top-of-stack");
+		card.appendTo($(".public-card-area"));
+		card.flip({trigger : "toggle"});
+		
+		sound.play();
+		if (playerNum < 2) {
+			card.flip(true);
+		}
+		$(card).animate({top: coords["top"], left: coords["left"]}, 800, function() {
+			card.removeClass("top-of-stack");
+			card.css({top: "", left: ""});
+			switch (playerNum) {
+				case 0:
+					card.attr("id", "slot-" + slotNum);
+					break;
+				case 1:
+					$("#player-1").prepend(card);
+				case 2:
+					if (playerNum == 2) {
+						$("#player-2").prepend(card);
+					}
+
+					if (slotNum == 1) {
+						card.addClass("bottom-card");
+					} else if (slotNum == 2) {
+						card.addClass("top-card");
+					} else {
+						alert("error: incorrect slot number");
+					}
+					break;
+				default:
+					alert("error: player number incorrect");			//	Temporary
+			}
+		});
+	}
+
+	$("#button-1").click(function() {
+		//	Deal players their cards
+		dealCardToSlot(1, 1, "spade", "ace");		//	Need to know who is dealer in the future
+		setTimeout(function() {			//	Need to know which cards to deal
+			dealCardToSlot(2, 1);
+			setTimeout(function() {
+				dealCardToSlot(1, 2, "heart", "queen");
+				setTimeout(function() {
+					dealCardToSlot(2, 2);
+				}, 400);
+			}, 400);
+		}, 400);
+	});
+	$("#button-2").click(function() {
+		//	Deal the flop
+		dealCardToSlot(0, 1, "club", "king");
+		setTimeout(function() {
+			dealCardToSlot(0, 2, "heart", "ten");
+			setTimeout(function() {
+				dealCardToSlot(0, 3, "diamond", "nine");
+			}, 400);
+		}, 400);
+	});
+	$("#button-3").click(function() {
+		//	Deal the turn
+		dealCardToSlot(0, 4, "spade", "four");
+	});
+	$("#button-4").click(function() {
+		// Deal the river
+		dealCardToSlot(0, 5, "club", "jack");
+	});
+	$("#button-5").click(function() {
+		//	Player 1 bets $50
+		bet(1, 150);
+	});
+	$("#button-6").click(function() {
+		//	Player 2 bets $50
+		bet(2, 500);
+	});
+	$("#button-7").click(function() {
+		//	player 1 wins
+		var player1 = { 
+			number : 1, 
+			winnings : gameState.potCash
+		};
+		playerWins([player1]);
+	});
+	$("#button-8").click(function() {
+		//	player 2 wins
+		var player2 = { 
+			number : 2, 
+			winnings : gameState.potCash
+		};
+		playerWins([player2]);
+	});
+	$("#button-9").click(function() {
+		//	both players win
+		var players = [{ 
+			number : 1, 
+			winnings : (gameState.potCash / 2) | 0
+		}, { 
+			number : 2, 
+			winnings : (gameState.potCash / 2) | 0
+		}];
+		playerWins(players);
+	});
+	$("#button-10").click(function() {
+		//	change background
+		viewOptions.background = viewOptions.background % viewOptions.numOfBackgrounds + 1;
+		changeBackground(viewOptions.background);
+		
+	});
+
+	for (slotNum = 1; slotNum <= 5; slotNum++) {
+		cardId = "#slot-" + slotNum;
+		$(cardId).flip();
+		$(cardId).click(function() {
+			var sound = new Audio('audio/card-flip.mp3');
+			sound.play();
+		});
+		$(cardId).flip(true);
+	}
+	$(".bottom-card").flip();
+	$(".bottom-card").click(function() {
+		var sound = new Audio('audio/card-flip.mp3');
+		sound.play();
+	});
+	$(".top-card").flip();
+	$(".top-card").click(function() {
+		var sound = new Audio('audio/card-flip.mp3');
+		sound.play();
+	});
+	$("#top-of-stack").flip({trigger: "manual"});
+
+	var dealer1 = $('#player-1-dealer');
+	var dealer2 = $('#player-2-dealer');
+	dealer1.click(function() {
+		dealer2.show();
+		dealer1.hide();
+	});
+	dealer2.click(function() {
+		dealer1.show();
+		dealer2.hide();
+	});
+	dealer2.hide();
+
+	$("body").css({display: "initial"});
+
+	$("#player-1-cash").html(gameState.playerCash[1]);
+	$("#player-2-cash").html(gameState.playerCash[2]);
+</script>

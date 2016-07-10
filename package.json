@@ -1,0 +1,15 @@
+{
+  "name": "poker",
+  "version": "1.0.0",
+  "description": "A web application based poker tournament framework.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tanner Coval",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "path": "^0.12.7"
+  }
+}
