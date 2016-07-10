@@ -1,12 +1,8 @@
-<script>
-window.odometerOptions = {
-	duration : 1000
-}
-</script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://code.jquery.com/color/jquery.color-2.1.2.min.js"></script>
 <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
 <script src="/js/odometer.min.js"></script>
+<script src="/js/preloader.js"></script>
 <link href='https://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200' rel='stylesheet' type='text/css'>
 <link href='/css/odometer-minimal.css' rel='stylesheet' type='text/css'>
@@ -118,6 +114,9 @@ window.odometerOptions = {
 </div>
 
 <style>
+	div#preload {
+		display : none;
+	}
 
 	div.debug-container {
 		position: fixed;
