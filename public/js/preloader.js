@@ -1,20 +1,7 @@
-var images;
-var sounds;
 
-if (typeof window.onload == 'function') {
-	var onloadFunc = window.onload;
-
-	window.onload = function() {
-		onloadFunc();
-		images = preloadImages(getImagePaths());
-		sounds = preloadSounds(getSoundPaths());
-	}
-} else {
-	window.onload = function() {
-		images = preloadImages(getImagePaths());
-		sounds = preloadSounds(getSoundPaths());
-	}
-}
+var images = preloadImages(getImagePaths());
+var sounds = preloadSounds(getSoundPaths());
+	
 
 function preloadImages(imagePaths) {
 	var images = [];
@@ -36,7 +23,7 @@ function preloadSounds(soundPaths) {
 
 function getSoundPaths() {
 	return [
-		"audio/5-second-count.mp3",
+		//"audio/5-second-count.mp3",
 		"audio/bet.mp3",
 		"audio/bet-2.mp3",
 		"audio/bet-3.mp3",
