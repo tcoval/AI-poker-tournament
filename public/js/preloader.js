@@ -43,6 +43,8 @@ function getImagePaths() {
 		"img/poker-chip-blue.png",
 		"img/poker-chip.png",
 		"img/table.png",
+		"img/nyan-cat.gif",
+		"img/nyan-cat-tail.jpg",
 		"img/cards/blank.png",
 		"img/backgrounds/background-1.jpg",
 		"img/backgrounds/background-2.jpg",

@@ -8,6 +8,8 @@
 <link href='/css/odometer-minimal.css' rel='stylesheet' type='text/css'>
 
 <div class="container">
+	<img class="nyan-cat" src="img/nyan-cat.gif">
+	<img class="nyan-cat-tail" src="img/nyan-cat-tail.jpg">
 	<div class="table-area">
 		<div class="table">
 			<img class="table" src="img/table.png">
@@ -114,8 +116,20 @@
 </div>
 
 <style>
-	div#preload {
-		display : none;
+	canvas.nyan-canvas {
+		position: absolute;
+	}
+	img.nyan-cat-tail {
+		position: absolute;
+		display: none;
+	}
+	img.nyan-cat {
+		position: absolute;
+		display: none;
+		height: 80px;
+		width: 100px;
+		margin-top: -40px;
+		margin-left: -50px;
 	}
 
 	div.debug-container {
@@ -181,9 +195,6 @@
 		top: 220px;
 		left: 345px;
 	}
-	img.dealer-chip {
-		zoom: 0.4;
-	}
 	div.bottom-card {
 		position: absolute;
 		left: 20px;
@@ -217,13 +228,12 @@
 	}
 	h3.player-cash {
 		position: absolute;
-		top: 27px;
+		top: 24px;
 		left: 5%;
 		width: 90%;
 		font-weight: bold;
 	}
 	img.name-plate {
-		zoom: 0.35;
 		position: absolute;
 		top: 0px;
 		left: 0px;
@@ -253,9 +263,8 @@
 	}
 	img.poker-chip {
 		position: absolute;
-		left: 20px;
-		top: 20px;
-		zoom: 0.4;
+		left: 10px;
+		top: 9px;
 	}
 	div.pot {
 		line-height: 40px;
@@ -353,6 +362,7 @@
 		width: 100%;
 		height: 100%;
 		position: absolute;
+		overflow: hidden;
 		background-image: url(img/backgrounds/background-1.jpg);
 		background-repeat: repeat;
 		background-size: 1920px auto;
@@ -378,16 +388,16 @@
 	}
 	img.table {
 		display: block;
-		zoom: 1.5;
+		width: 1038px;
+		height: auto;
 		margin: 0 auto;
 	}
 
 	/*===== GENERAL CARD =====*/
 	div.card {
-		zoom: 0.45;
 		perspective: 400px;
-		width: 170px;
-		height: 245px;
+		width: 77px;
+		height: 111px;
 		position: absolute;
 	}
 </style>
@@ -418,13 +428,144 @@
 	var viewOptions = {
 		numOfCardBacks : 1,
 		cardBack : 1,
-		numOfBackgrounds : 3,
+		numOfBackgrounds : 5,
 		background : 1
 	};
 
 	function changeBackground(backgroundNum) {
+		viewOptions.background = backgroundNum;
 		$(".container").css({
 			"background-image" : "url(/img/backgrounds/background-" + backgroundNum + ".jpg"
+		});
+		if (viewOptions.background == viewOptions.numOfBackgrounds) {
+			startNyanCats();
+		}
+	}
+
+	function startNyanCats() {
+		if (viewOptions.background == viewOptions.numOfBackgrounds) {
+			nyanCat();
+			setTimeout(function() {
+				startNyanCats();
+			}, 20000);
+		}
+	}
+
+	function nyanCat() {
+		var nyanCat = $(".nyan-cat").clone();
+		var id = Math.random();
+		nyanCat.prependTo($(".container"));
+		nyanCat.attr("id", id);
+		var startSideNum = Math.floor(Math.random() * 4);
+		var endSideNum = Math.floor(Math.random() * 3);
+		if (endSideNum >= startSideNum) endSideNum++;
+		var pos = {};
+		switch (startSideNum) {
+			case 0:  	//left
+				pos.startX = -nyanCat.width();
+				pos.startY = Math.floor(Math.random() * $(window).height());
+				break;
+			case 1:  	//top
+				pos.startX = Math.floor(Math.random() * $(window).width());
+				pos.startY = -nyanCat.height();
+				break;
+			case 2:  	//right 
+				pos.startX = $(window).width() + nyanCat.width();
+				pos.startY = Math.floor(Math.random() * $(window).height());
+				break;
+			case 3:  	//bottom
+				pos.startX = Math.floor(Math.random() * $(window).width());
+				pos.startY = $(window).height() + nyanCat.height();
+				break;
+			default:
+				alert("there has been an error"); 		//	remove later for testing only
+		}
+		switch (endSideNum) {
+			case 0:  	//left
+				pos.endX = -nyanCat.width();
+				pos.endY = Math.floor(Math.random() * $(window).height());
+				break;
+			case 1:  	//top
+				pos.endX = Math.floor(Math.random() * $(window).width());
+				pos.endY = -nyanCat.height();
+				break;
+			case 2:  	//right 
+				pos.endX = $(window).width() + nyanCat.width();
+				pos.endY = Math.floor(Math.random() * $(window).height());
+				break;
+			case 3:  	//bottom
+				pos.endX = Math.floor(Math.random() * $(window).width());
+				pos.endY = $(window).height() + nyanCat.height() ;
+				break;
+			default:
+				alert("there has been an error"); 		//	remove later for testing only
+		}
+
+		var width = pos.startX - pos.endX;
+		var height = pos.startY - pos.endY;
+		var distance = Math.floor(Math.sqrt((width * width) + (height * height)));
+		var degrees;
+		var catCanvas = $("<canvas class=\"nyan-canvas\" width=\"" + distance + "px\" height=\"46px\">");
+		catCanvas.attr("id", id);
+		catCanvas.prependTo($(".container"));
+		nyanCat.css({
+			top : pos.startY,
+			left : pos.startX
+		});
+		catCanvas.css({
+			top: Math.floor((pos.startY + pos.endY) / 2),
+			left : Math.floor((pos.startX + pos.endX) / 2),
+			"margin-top": Math.floor(-catCanvas.height() / 2),
+			"margin-left": Math.floor(-catCanvas.width() / 2)
+		});
+		
+		if (pos.startX <= pos.endX) {
+			degrees = Math.atan(height / width) / Math.PI * 180.0;
+			var cssRotate = {
+				'-webkit-transform' : 'rotate('+ degrees +'deg)',
+	        	'-moz-transform' : 'rotate('+ degrees +'deg)',
+	        	'-ms-transform' : 'rotate('+ degrees +'deg)',
+	        	'transform' : 'rotate('+ degrees +'deg)'
+	        };
+			nyanCat.css(cssRotate);
+			catCanvas.css(cssRotate);
+		} else {
+			degrees = Math.atan(-height / width) / Math.PI * 180.0;
+
+			var cssRotate = {
+				'-webkit-transform' : 'scaleX(-1) rotate('+ degrees +'deg)',
+	        	'-moz-transform' : 'scaleX(-1) rotate('+ degrees +'deg)',
+	        	'-ms-transform' : 'scaleX(-1) rotate('+ degrees +'deg)',
+	        	'transform' : 'scaleX(-1) rotate('+ degrees +'deg)'
+	        };
+        	nyanCat.css(cssRotate);
+			catCanvas.css(cssRotate);
+		}
+		nyanCat.show();
+		var startTime = new Date().getTime();
+		nyanCat.animate({ 
+			"top" : pos.endY, 
+			"left" : pos.endX 
+		}, {
+			duration : distance * 10,
+			easing : "linear",
+			step : function() {
+				var percentDone = (new Date().getTime() - startTime) / (distance * 10);
+				var currCanvas = $('.nyan-canvas, #' + $(this).attr("id")).get()[0];
+				var ctx = currCanvas.getContext('2d');
+				var tail = document.getElementsByClassName('nyan-cat-tail')[0];
+				ctx.drawImage(tail, Math.floor(distance * percentDone), 0);
+			},
+			complete : function() {
+				var canvasId = $(this).attr("id");
+				this.remove();
+				setTimeout(function() {
+					var oldTail = $('.nyan-canvas, #' + canvasId);
+					oldTail.animate({"opacity" : "0.0"}, 5000, function() {
+						this.remove();
+					});
+				}, 30000);
+			}
 		});
 	}
 
@@ -467,8 +608,8 @@
 		var pot = $(".pot");
 		var potCash = $("#pot-cash");
 		var playerLocs = {
-			1 : {top : "715px", left : "235px"},
-			2 : {top : "-245px", left : "235px"}
+			1 : {top : "285px", left : "93px"},
+			2 : {top : "-98px", left : "93px"}
 		};
 		$.each(playerWinnings, function(index, player) {
 			var chip = $(".poker-chip").clone();
@@ -553,15 +694,15 @@
 		var playerCash = $("#player-" + playerNum + "-cash");
 		var sound = new Audio('audio/bet-2.mp3');
 		var playerLocs = {
-			1 : {top : "715px", left : "235px"},
-			2 : {top : "-245px", left : "235px"}
+			1 : {top : "285px", left : "93px"},
+			2 : {top : "-98px", left : "93px"}
 		};
 		chip.css(playerLocs[playerNum]);
 		chip.appendTo(".pot-marking");
 		setTimeout( function() {
 			sound.play();
 		}, 200);
-		chip.animate({ top : "20px", left : "20px" }, 700, function() {
+		chip.animate({ top : "9px", left : "10px" }, 700, function() {
 			this.remove();
 		});
 		gameState.potCash += amount;
