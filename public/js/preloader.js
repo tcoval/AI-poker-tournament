@@ -48,7 +48,9 @@ function getImagePaths() {
 		"img/cards/blank.png",
 		"img/backgrounds/background-1.jpg",
 		"img/backgrounds/background-2.jpg",
-		"img/backgrounds/background-3.jpg"
+		"img/backgrounds/background-3.jpg",
+		"img/backgrounds/background-4.jpg",
+		"img/backgrounds/background-5.jpg"
 	];
 
 	var cardImagePaths = getCardImagePaths();
