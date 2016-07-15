@@ -1,12 +1,27 @@
 
 
 	function changeBackground(backgroundNum) {
-		viewOptions.background = backgroundNum;
+		if (game.view.background == backgroundNum) {
+			return;
+		}
+		if (game.view.background == game.view.numOfBackgrounds -1) {
+			$('div.flappy-background').css('background-image', 'none');
+		}
+		if (game.view.background == game.view.numOfBackgrounds) {
+			var cats = $('img.nyan-cat').not('.original');
+			var canvas = $('canvas.nyan-canvas').not('.original');
+			cats.remove();
+			canvas.remove();
+		}
+		game.view.background = backgroundNum;
 		$(".container").css({
 			"background-image" : "url(/img/backgrounds/background-" + backgroundNum + ".jpg"
 		});
-		if (viewOptions.background == viewOptions.numOfBackgrounds) {
-			startNyanCats();
+		if (game.view.background == game.view.numOfBackgrounds - 1) {
+			initFlappy();
+		}
+		if (game.view.background == game.view.numOfBackgrounds) {
+			spawnNyanCats();
 		}
 	}
 
@@ -60,12 +75,12 @@
 			chip.animate(playerLocs[player.number], 700, function() {
 				this.remove();
 			});
-			gameState.playerCash[player.number] += player.winnings;
-			$("#player-" + player.number + "-cash").html(gameState.playerCash[player.number]);
+			game.state.players[player.number - 1].cash += player.winnings;
+			$("#player-" + player.number + "-cash").html(game.state.players[player.number - 1].cash);
 		});
 
-		gameState.potCash = 0;
-		potCash.html(gameState.potCash);
+		game.state.pots[0] = 0;
+		potCash.html(game.state.pots[0]);
 
 		var sound = new Audio('audio/bet.mp3');
 		setTimeout( function() {
@@ -81,7 +96,7 @@
 		var cards = [".bottom-card", ".top-card"];
 		var sound = new Audio("/audio/card-flip-2.mp3");
 		//var cardsCollected = false;
-		for (var playerNum = 1; playerNum <= gameState.numOfPlayers; playerNum++) {
+		for (var playerNum = 1; playerNum <= game.state.numOfPlayers; playerNum++) {
 			var player = "#player-" + playerNum;
 			$.each(cards, function(index, cardClass) {
 
@@ -148,10 +163,10 @@
 		chip.animate({ top : "9px", left : "10px" }, 700, function() {
 			this.remove();
 		});
-		gameState.potCash += amount;
-		gameState.playerCash[playerNum] -= amount;
-		potCash.html(gameState.potCash);
-		playerCash.html(gameState.playerCash[playerNum]);
+		game.state.pots[0] += amount;
+		game.state.players[playerNum - 1].cash -= amount;
+		potCash.html(game.state.pots[0]);
+		playerCash.html(game.state.players[playerNum - 1].cash);
 		pot.animate({color : "#55FF55"}, 400, function() {
 			setTimeout(function() {
 				pot.animate({color: "white"}, 600);
@@ -265,7 +280,7 @@
 			//	player 1 wins
 			var player1 = { 
 				number : 1, 
-				winnings : gameState.potCash
+				winnings : game.state.pots[0]
 			};
 			playerWins([player1]);
 		});
@@ -273,7 +288,7 @@
 			//	player 2 wins
 			var player2 = { 
 				number : 2, 
-				winnings : gameState.potCash
+				winnings : game.state.pots[0]
 			};
 			playerWins([player2]);
 		});
@@ -281,17 +296,17 @@
 			//	both players win
 			var players = [{ 
 				number : 1, 
-				winnings : (gameState.potCash / 2) | 0
+				winnings : (game.state.pots[0] / 2) | 0
 			}, { 
 				number : 2, 
-				winnings : (gameState.potCash / 2) | 0
+				winnings : (game.state.pots[0] / 2) | 0
 			}];
 			playerWins(players);
 		});
 		$("#button-10").click(function() {
 			//	change background
-			viewOptions.background = viewOptions.background % viewOptions.numOfBackgrounds + 1;
-			changeBackground(viewOptions.background);
+			var newBackground = game.view.background % game.view.numOfBackgrounds + 1;
+			changeBackground(newBackground);
 			
 		});
 		
@@ -329,8 +344,8 @@
 		dealer2.hide();
 		$("body").css({display: "initial"});
 
-		$("#player-1-cash").html(gameState.playerCash[1]);
-		$("#player-2-cash").html(gameState.playerCash[2]);
+		$("#player-1-cash").html(game.state.players[0].cash);
+		$("#player-2-cash").html(game.state.players[1].cash);
 	});
 
 	

@@ -17,6 +17,7 @@
 	<script src='/js/preloader.js'></script>
 	<script src='/js/main.js'></script>
 	<script src='/js/nyan.js'></script>
+	<script src='/js/flappy.js'></script>
 	<link href='https://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'/>
 	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200' rel='stylesheet' type='text/css'/>
 	<link href='/css/main.css' rel='stylesheet' type='text/css'/>
@@ -24,121 +25,124 @@
 </head>
 <body>
 	<div class='container'>
-		<div class='table-area'>
-			<div class='table'>
-				<img class='table' src='img/table.png'>
-			</div>
+		<div class='flappy-background'>
+			<div class='table-area'>
+				<div class='table'>
+					<img class='table' src='img/table.png'>
+				</div>
 
-			<div class='public-card-area'>
-				<div id='stack'>
-					<div id='stack-1'>
-						<div class='card'>
-							<img src='img/backs/back-1.png'>
-						</div>
-					</div>
-					<div id='stack-2'>
-						<div class='card'>
-							<img src='img/backs/back-1.png'>
-						</div>
-					</div>
-					<div id='stack-3'>
-						<div class='card'>
-							<img src='img/backs/back-1.png'>
-						</div>
-					</div>
-					<div id='stack-4'>
-						<div class='card'>
-							<img src='img/backs/back-1.png'>
-						</div>
-					</div>
-					<div id='top-of-stack'>
-						<div class='card'>
-							<div class='front'>
+				<div class='public-card-area'>
+					<div id='stack'>
+						<div id='stack-1'>
+							<div class='card'>
 								<img src='img/backs/back-1.png'>
 							</div>
-							<div class='back'>
-								<img src='img/cards/blank.png'>
+						</div>
+						<div id='stack-2'>
+							<div class='card'>
+								<img src='img/backs/back-1.png'>
+							</div>
+						</div>
+						<div id='stack-3'>
+							<div class='card'>
+								<img src='img/backs/back-1.png'>
+							</div>
+						</div>
+						<div id='stack-4'>
+							<div class='card'>
+								<img src='img/backs/back-1.png'>
+							</div>
+						</div>
+						<div id='top-of-stack'>
+							<div class='card'>
+								<div class='front'>
+									<img src='img/backs/back-1.png'>
+								</div>
+								<div class='back'>
+									<img src='img/cards/blank.png'>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class='pot-area'>
-				<div class='pot-marking'>
-					<img id='original-poker-chip' class='poker-chip' src='img/poker-chip.png'>
-					<div class='pot'>
-						<span class='dollar-sign'>$</span><div id='pot-cash' class='odometer'>0</div>
+				<div class='pot-area'>
+					<div class='pot-marking'>
+						<img id='original-poker-chip' class='poker-chip' src='img/poker-chip.png'>
+						<div class='pot'>
+							<span class='dollar-sign'>$</span><div id='pot-cash' class='odometer'>0</div>
+						</div>
 					</div>
 				</div>
+
+				<div id='player-1' class='player'>
+					<div class='name-plate'>
+						<img class='name-plate' src='img/name-plate.png'>
+						<h3 class='name-plate-text player-name'>Tanner Coval</h3>
+						<h3 class='name-plate-text player-cash'>
+							<span class='dollar-sign'>$</span><div id='player-1-cash' class='odometer'>0</div>
+						</h3>
+					</div>
+				</div>
+				<div id='player-1-dealer'>
+					<img class='dealer-chip' src='/img/dealer-chip.png'>
+				</div>
+
+				<div id='player-2' class='player'>
+					<div class='name-plate'>
+						<img class='name-plate' src='img/name-plate.png'>
+						<h3 class='name-plate-text player-name'>Alan Tan</h3>
+						<h3 class='name-plate-text player-cash'>
+							<span class='dollar-sign'>$</span><div id='player-2-cash' class='odometer'>0</div>
+						</h3>
+					</div>
+				</div>
+				<div id='player-2-dealer'>
+					<img class='dealer-chip' src='/img/dealer-chip.png'>
+				</div>
 			</div>
 
-			<div id='player-1' class='player'>
-				<div class='name-plate'>
-					<img class='name-plate' src='img/name-plate.png'>
-					<h3 class='name-plate-text player-name'>Tanner Coval</h3>
-					<h3 class='name-plate-text player-cash'>
-						<span class='dollar-sign'>$</span><div id='player-1-cash' class='odometer'>0</div>
-					</h3>
-				</div>
-			</div>
-			<div id='player-1-dealer'>
-				<img class='dealer-chip' src='/img/dealer-chip.png'>
-			</div>
-
-			<div id='player-2' class='player'>
-				<div class='name-plate'>
-					<img class='name-plate' src='img/name-plate.png'>
-					<h3 class='name-plate-text player-name'>Alan Tan</h3>
-					<h3 class='name-plate-text player-cash'>
-						<span class='dollar-sign'>$</span><div id='player-2-cash' class='odometer'>0</div>
-					</h3>
-				</div>
-			</div>
-			<div id='player-2-dealer'>
-				<img class='dealer-chip' src='/img/dealer-chip.png'>
-			</div>
-		</div>
-
-		<!-- For Testing Purposes Only -->
-		<div class='debug-container'>
-			<div class='lower-debug-bar'>
-				<div id='button-1' class='button'>
-					<p class='button-text'>Deal Players</p>
-				</div>
-				<div id='button-2' class='button'>
-					<p class='button-text'>Deal Flop</p>
-				</div>
-				<div id='button-3' class='button'>
-					<p class='button-text'>Deal Turn</p>
-				</div>
-				<div id='button-4' class='button'>
-					<p class='button-text'>Deal River</p>
-				</div>
-				<div id='button-5' class='button'>
-					<p class='button-text'>P1 Bets</p>
-				</div>
-				<div id='button-6' class='button'>
-					<p class='button-text'>P2 Bets</p>
-				</div>
-				<div id='button-7' class='button'>
-					<p class='button-text'>Player 1 Wins</p>
-				</div>
-				<div id='button-8' class='button'>
-					<p class='button-text'>Player 2 Wins</p>
-				</div>
-				<div id='button-9' class='button'>
-					<p class='button-text'>Both Win</p>
-				</div>
-				<div id='button-10' class='button'>
-					<p class='button-text'>Toggle BG</p>
+			<!-- For Testing Purposes Only -->
+			<div class='debug-container'>
+				<div class='lower-debug-bar'>
+					<div id='button-1' class='button'>
+						<p class='button-text'>Deal Players</p>
+					</div>
+					<div id='button-2' class='button'>
+						<p class='button-text'>Deal Flop</p>
+					</div>
+					<div id='button-3' class='button'>
+						<p class='button-text'>Deal Turn</p>
+					</div>
+					<div id='button-4' class='button'>
+						<p class='button-text'>Deal River</p>
+					</div>
+					<div id='button-5' class='button'>
+						<p class='button-text'>P1 Bets</p>
+					</div>
+					<div id='button-6' class='button'>
+						<p class='button-text'>P2 Bets</p>
+					</div>
+					<div id='button-7' class='button'>
+						<p class='button-text'>Player 1 Wins</p>
+					</div>
+					<div id='button-8' class='button'>
+						<p class='button-text'>Player 2 Wins</p>
+					</div>
+					<div id='button-9' class='button'>
+						<p class='button-text'>Both Win</p>
+					</div>
+					<div id='button-10' class='button'>
+						<p class='button-text'>Toggle BG</p>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Hidden Clonable Graphics -->
-	<img class='nyan-cat' src='img/nyan-cat.gif'/>
-	<img class='nyan-cat-tail' src='img/nyan-cat-tail.jpg'/>
+	<img class='nyan-cat original' src='img/nyan-cat.gif'/>
+	<img id='nyan-cat-tail' src='img/nyan-cat-tail.jpg'/>
+	<canvas class='nyan-canvas original'>
 </body>
 </html>

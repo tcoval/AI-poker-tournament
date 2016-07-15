@@ -15,9 +15,6 @@ function Player(name, cash) {
 	this.cash = cash;
 	this.cards = [];
 	this.currentBet = 0;
-	this.toString = function() {
-		return "Player";
-	}
 }
 
 function State(players, publicCards, pots, dealer, activePlayer, stage) {
@@ -27,25 +24,6 @@ function State(players, publicCards, pots, dealer, activePlayer, stage) {
 	this.dealer = dealer;
 	this.activePlayer = activePlayer;
 	this.stage = stage;
-	this.diff = function(otherState) {
-		if (!(otherState instanceof State)) {
-			alert('An error occured in State.diff()');
-		} 
-		var diffs = [];
-		var keys = {};
-		$.each(Object.keys(this).concat(Object.keys(otherState)), function(key, _) {
-			keys[key] = true;
-		});
-		$.each(keys, function(key, _) {
-			if (this.key != otherState.key) {
-				
-			}
-		});
-
-	};
-	this.toString() {
-		return "State";
-	}
 }
 
 function View(numOfBackgrounds, background, numOfCardBacks, cardBack) {
@@ -53,9 +31,17 @@ function View(numOfBackgrounds, background, numOfCardBacks, cardBack) {
 	this.background = background;
 	this.numOfCardBacks = numOfCardBacks;
 	this.cardBack = cardBack;
+	this.nyanCat = {
+		speedModifier : 10,
+		spawnDelay : 10000,
+		tailDuration : 30000,
+		tailFadeDuration : 5000
+	};
 }
 
-function Game(numOfSeats, state, view) {
+function Game(gameID, numOfSeats, state, view) {
+	this.gameID = gameID;
+	this.lastActionNum = 0;
 	this.numOfSeats = numOfSeats;
 	this.state = state;
 	this.view = view;
@@ -66,5 +52,5 @@ var players = [
 	new Player('Alan Tan', 10000)
 ];
 var state = new State(players, [], [0], 1, 1, STAGE.NEW_GAME);
-var view = new View(5, 1, 1, 1);
-var game = new Game(2, state, view);
+var view = new View(6, 1, 1, 1);
+var game = new Game(123456, 2, state, view);
