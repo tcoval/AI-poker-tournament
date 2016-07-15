@@ -40,6 +40,11 @@ function getImagePaths() {
 	var genImagePaths = [
 		"img/dealer-chip.png",
 		"img/name-plate.png",
+		"flappy-background.png",
+		"flappy-bird-0.png",
+		"flappy-bird-1.png",
+		"flappy-bird-2.png",
+		"flappy-pipe.png",
 		"img/poker-chip-blue.png",
 		"img/poker-chip.png",
 		"img/table.png",
@@ -50,7 +55,8 @@ function getImagePaths() {
 		"img/backgrounds/background-2.jpg",
 		"img/backgrounds/background-3.jpg",
 		"img/backgrounds/background-4.jpg",
-		"img/backgrounds/background-5.jpg"
+		"img/backgrounds/background-5.jpg",
+		"img/backgrounds/background-6.jpg"
 	];
 
 	var cardImagePaths = getCardImagePaths();
