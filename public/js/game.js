@@ -33,8 +33,8 @@ function View(numOfBackgrounds, background, numOfCardBacks, cardBack) {
 	this.cardBack = cardBack;
 	this.nyanCat = {
 		speedModifier : 10,
-		spawnDelay : 10000,
-		tailDuration : 30000,
+		spawnDelay : 15000,
+		tailDuration : 15000,
 		tailFadeDuration : 5000
 	};
 }
